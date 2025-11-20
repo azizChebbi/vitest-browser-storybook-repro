@@ -5,35 +5,33 @@ import { defineConfig } from "vite";
 import { defineProject } from "vitest/config";
 
 export default defineConfig({
-    test: {
-        projects: [
-            defineProject(
-                    {
-                        plugins: [
-                            storybookTest({
-                                configDir: path.join(__dirname, ".storybook"),
-                                // The --no-open flag will skip the automatic opening of a browser
-                                storybookScript: "npm run storybook -- --no-open",
-                            }),
-                        ],
-
-                        test: {
-                            name: "storybook",
-                            // Enable browser mode
-                            browser: {
-                                enabled: true,
-                                provider: playwright({}),
-                                headless: true,
-                                instances: [{ browser: "chromium" }],
-                            },
-                            setupFiles: ["./.storybook/vitest.setup.ts"],
-                        },
-
-                        optimizeDeps: {
-                            include: ["react/jsx-dev-runtime"]
-                        }
-                    }
-            ),
+  test: {
+    projects: [
+      defineProject({
+        plugins: [
+          storybookTest({
+            configDir: path.join(__dirname, ".storybook"),
+            // The --no-open flag will skip the automatic opening of a browser
+            storybookScript: "npm run storybook -- --no-open",
+          }),
         ],
-    }
+
+        test: {
+          name: "storybook",
+          // Enable browser mode
+          browser: {
+            enabled: true,
+            provider: playwright({}),
+            headless: true,
+            instances: [{ browser: "chromium" }],
+          },
+          setupFiles: ["./.storybook/vitest.setup.ts"],
+        },
+
+        optimizeDeps: {
+          include: ["react/jsx-dev-runtime"],
+        },
+      }),
+    ],
+  },
 });
